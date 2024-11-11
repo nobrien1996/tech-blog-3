@@ -1,11 +1,11 @@
-const signupFormHandler = async function (event) {
+const registerFormHandler = async function (event) {
   event.preventDefault();
 
   const usernameEl = document
-    .querySelector('#username-input-signup')
+    .querySelector('#username-input-register')
     .value.trim();
   const passwordEl = document
-    .querySelector('#password-input-signup')
+    .querySelector('#password-input-register')
     .value.trim();
 
   if (passwordEl.length >= 8 && usernameEl) {
@@ -31,5 +31,5 @@ const signupFormHandler = async function (event) {
 };
 
 document
-  .querySelector('#signup-form')
-  .addEventListener('submit', signupFormHandler);
+  .querySelector('#register-form')
+  .addEventListener('submit', registerFormHandler);

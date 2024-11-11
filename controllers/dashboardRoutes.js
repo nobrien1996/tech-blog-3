@@ -2,25 +2,21 @@ const router = require('express').Router();
 const { Post } = require('../models');
 const { withGuard } = require('../utils/authGuard');
 
+
 router.get('/', withGuard, async (req, res) => {
   try {
-    const postData = await Post.findAll({
-      where: {
-        userId: req.session.user_id,
-      },
+    const postStuff = await Post.findAll({
+      where: {userId: req.session.user_id,},
     });
-
-    const posts = postData.map((post) => post.get({ plain: true }));
-
+    const posts = postStuff.map((post) => post.get({ plain: true }));
     res.render('dashboard', {
-      dashboard: true,
-      posts,
-      loggedIn: req.session.logged_in,
+      dashboard: true, posts, loggedIn: req.session.logged_in,
     });
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
 
 router.get('/new', withGuard, (req, res) => {
   res.render('newPost', {
@@ -29,17 +25,14 @@ router.get('/new', withGuard, (req, res) => {
   });
 });
 
+
 router.get('/edit/:id', withGuard, async (req, res) => {
   try {
-    const postData = await Post.findByPk(req.params.id);
-
-    if (postData) {
-      const post = postData.get({ plain: true });
-
+    const postStuff = await Post.findByPk(req.params.id);
+    if (postStuff) {
+      const post = postStuff.get({ plain: true });
       res.render('editPost', {
-        dashboard: true,
-        post,
-        loggedIn: req.session.logged_in,
+        dashboard: true,post, loggedIn: req.session.logged_in,
       });
     } else {
       res.status(404).end();
@@ -48,5 +41,6 @@ router.get('/edit/:id', withGuard, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 module.exports = router;

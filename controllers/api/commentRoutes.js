@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Comment } = require('../../models/');
 const { apiGuard } = require('../../utils/authGuard');
 
+
 router.post('/', apiGuard, async (req, res) => {
   try {
     const newComment = await Comment.create({
@@ -13,5 +14,6 @@ router.post('/', apiGuard, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 module.exports = router;

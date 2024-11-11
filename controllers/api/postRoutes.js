@@ -2,25 +2,23 @@ const router = require('express').Router();
 const { Post } = require('../../models/');
 const { apiGuard } = require('../../utils/authGuard');
 
+
 router.post('/', apiGuard, async (req, res) => {
   const body = req.body;
-
   try {
-    const newPost = await Post.create({ ...body, userId: req.session.user_id });
-    res.json(newPost);
+    const newPosting = await Post.create({ ...body, userId: req.session.user_id });
+    res.json(newPosting);
   } catch (err) {
     res.status(500).json(err);
   }
 });
+
 
 router.put('/:id', apiGuard, async (req, res) => {
   try {
-    const [affectedRows] = await Post.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
+    const [ affectedRows ] = await Post.update(req.body, {
+      where: {id: req.params.id,},
     });
-
     if (affectedRows > 0) {
       res.status(200).end();
     } else {
@@ -30,15 +28,13 @@ router.put('/:id', apiGuard, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 router.delete('/:id', apiGuard, async (req, res) => {
   try {
-    const [affectedRows] = Post.destroy({
-      where: {
-        id: req.params.id,
-      },
+    const [ affectedRows ] = Post.destroy({
+      where: {id: req.params.id,},
     });
-
     if (affectedRows > 0) {
       res.status(200).end();
     } else {
@@ -48,5 +44,6 @@ router.delete('/:id', apiGuard, async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 module.exports = router;
